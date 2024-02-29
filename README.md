@@ -1,8 +1,10 @@
 # UnityNative
 Helps comunication between unity and native(Android, iOS)
 
-## Getting started
-Download unityPackage in [Release](https://github.com/psmjazz/NativeBridge-Unity/releases). And import it to your project
+## Installation
+Open `Window/Package Manager` and click top left `+` button. Select `Add package from git URL`. 
+
+Type "https://github.com/psmjazz/NativeBridge-Unity.git" and click `Add` button.
 
 ## How to use
 
