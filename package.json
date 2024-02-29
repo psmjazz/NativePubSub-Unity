@@ -1,6 +1,6 @@
 {
     "name": "com.psmjzzz.nativebridge",
-    "version": "0.0.2",
+    "version": "0.0.1",
     "displayName": "NativeBridge",
     "description": "Helps comunication with native code",
     "unity": "2021.3",
