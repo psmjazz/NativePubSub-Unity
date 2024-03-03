@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.Protobuf;
 using PJ.Core.Util;
-using PJ.Native.Messenger;
+using PJ.Native.PubSub;
 using PJ.Native.Proto;
 using UnityEngine;
 
 namespace PJ.Native.Bridge
 {
-    public class Native : Singleton<Native>
+    public class NativePubSub : Singleton<NativePubSub>
     {
         private INativeBridge bridge;
-        private MessageCollector collector;
+        private Messenger collector;
 
         private void OnReceiveFromNative(byte[] rawData)
         {
-            collector.Notify(ToMessage(rawData), Tag.Game);
+            collector.Publish(ToMessage(rawData), Tag.Game);
         }
 
         private byte[] ToRawData(Message message)
@@ -43,8 +43,8 @@ namespace PJ.Native.Bridge
         {
             bridge = new NativeBridge();
             bridge.SetNativeDataListener(OnReceiveFromNative);
-            collector = new MessageCollector(Tag.Native);
-            collector.SetHandler(OnReceiveFromNative);
+            collector = new Messenger(Tag.Native);
+            collector.Subscribe(OnReceiveFromNative, (messageHolder) => true);
         }
     }
 

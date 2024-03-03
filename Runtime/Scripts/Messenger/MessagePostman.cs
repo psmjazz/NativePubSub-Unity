@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using PJ.Native.Proto;
 using UnityEngine;
 
-namespace PJ.Native.Messenger
+namespace PJ.Native.PubSub
 {
-    public class MessagePostman : MessageHolder
+    internal class MessagePostman : MessageHolder
     {
         private Receivable messageHost;
         public Message Message 

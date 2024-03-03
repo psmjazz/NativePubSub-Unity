@@ -1,7 +1,12 @@
 # Changelog
 
 ## [Unreleased]
-
+### Changed
+- Rename namespace PJ.Native.Messenger to PJ.Native.PubSub
+- Rename MessageHandler's method
+- Rename MessageHandler to Messenger.
+### Removed
+- Delete MessageCollector.
 
 ## [0.0.1] - 2024-02-29
 

@@ -5,7 +5,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace PJ.Native.Messenger
+namespace PJ.Native.PubSub
 {
     public partial struct Tag 
     {

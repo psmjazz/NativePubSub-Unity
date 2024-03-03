@@ -2,7 +2,7 @@ using PJ.Native.Proto;
 using Google.Protobuf;
 using System.Collections.Generic;
 
-namespace PJ.Native.Messenger
+namespace PJ.Native.PubSub
 {
     public static class ContainerExtensions
     {

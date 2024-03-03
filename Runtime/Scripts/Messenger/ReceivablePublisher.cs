@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using PJ.Native.Proto;
 using UnityEngine;
 
-namespace PJ.Native.Messenger
+namespace PJ.Native.PubSub
 {
     public interface Receivable
     {
@@ -12,7 +12,7 @@ namespace PJ.Native.Messenger
         void OnReceive(MessageHolder messageHolder);
     }
 
-    public class Notifier
+    public class Publisher
     {
         private static class IDCounter
         {
@@ -26,20 +26,20 @@ namespace PJ.Native.Messenger
         public Tag Tag => tag;
         public int ID = IDCounter.GetID();
 
-        public Notifier(Tag tag)
+        public Publisher(Tag tag)
         {
             this.tag = tag;
         }
 
-        public void Notify(Message message, Tag tag)
+        public void Publish(Message message, Tag tag)
         {
             MessageManager.Instance.Mediator.Notify(message, tag, this);
         }
     }
     
-    public abstract class MessageNode : Notifier, Receivable
+    public abstract class ReceivablePublisher : Publisher, Receivable
     {
-        public MessageNode(Tag tag) : base(tag)
+        internal ReceivablePublisher(Tag tag) : base(tag)
         {
         }
 

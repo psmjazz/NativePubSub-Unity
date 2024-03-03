@@ -5,23 +5,23 @@ using PJ.Native.Proto;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace PJ.Native.Messenger
+namespace PJ.Native.PubSub
 {
-    public class MessageMediatorImpl : MessageMediator
+    internal class MessageMediatorImpl : MessageMediator
     {
-        private Dictionary<int, MessageNode> idFilter;
+        private Dictionary<int, ReceivablePublisher> idFilter;
 
         public MessageMediatorImpl()
         {
-            idFilter = new Dictionary<int, MessageNode>();
+            idFilter = new Dictionary<int, ReceivablePublisher>();
         }
 
-        public void Register(MessageNode node)
+        public void Register(ReceivablePublisher node)
         {
             idFilter[node.ID] = node;
         }
 
-        public void Notify(Message message, Tag tag, Notifier notifier)
+        public void Notify(Message message, Tag tag, Publisher notifier)
         {
             MessageHolder holder = new MessagePostman(message, linkReceiver(notifier));
             foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag)))
@@ -31,7 +31,7 @@ namespace PJ.Native.Messenger
             }
         }
 
-        private Receivable linkReceiver(Notifier publisher)
+        private Receivable linkReceiver(Publisher publisher)
         {
             return idFilter[publisher.ID];
         } 
