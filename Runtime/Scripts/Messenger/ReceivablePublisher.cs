@@ -33,7 +33,7 @@ namespace PJ.Native.PubSub
 
         public void Publish(Message message, Tag tag)
         {
-            MessageManager.Instance.Mediator.Notify(message, tag, this);
+            MessageManager.Instance.Mediator.Publish(message, tag, this);
         }
     }
     

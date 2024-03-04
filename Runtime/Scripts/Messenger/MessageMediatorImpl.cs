@@ -21,7 +21,7 @@ namespace PJ.Native.PubSub
             idFilter[node.ID] = node;
         }
 
-        public void Notify(Message message, Tag tag, Publisher notifier)
+        public void Publish(Message message, Tag tag, Publisher notifier)
         {
             MessageHolder holder = new MessagePostman(message, linkReceiver(notifier));
             foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag)))

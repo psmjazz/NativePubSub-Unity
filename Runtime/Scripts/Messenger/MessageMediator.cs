@@ -11,7 +11,7 @@ namespace PJ.Native.PubSub
         void Register(ReceivablePublisher node);
         // void RegisterType(MessageNode node, string messageType);
         // void Notify(Message message, Notifier notifier);
-        void Notify(Message message, Tag tag, Publisher notifier);
+        void Publish(Message message, Tag tag, Publisher notifier);
         void GiveBack(Message message, Receivable giveBacked);
     }
 
