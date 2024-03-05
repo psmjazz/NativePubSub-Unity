@@ -9,9 +9,7 @@ namespace PJ.Native.PubSub
     public interface MessageMediator
     {
         void Register(ReceivablePublisher node);
-        // void RegisterType(MessageNode node, string messageType);
-        // void Notify(Message message, Notifier notifier);
-        void Publish(Message message, Tag tag, Publisher notifier);
+        void Publish(Message message, Tag tag, Publisher publisher);
         void GiveBack(Message message, Receivable giveBacked);
     }
 

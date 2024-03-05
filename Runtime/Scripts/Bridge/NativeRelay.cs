@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace PJ.Native.Bridge
 {
-    public class NativePubSub : Singleton<NativePubSub>
+    public class NativeRelay : Singleton<NativeRelay>
     {
         private INativeBridge bridge;
         private Messenger collector;
@@ -44,7 +44,7 @@ namespace PJ.Native.Bridge
             bridge = new NativeBridge();
             bridge.SetNativeDataListener(OnReceiveFromNative);
             collector = new Messenger(Tag.Native);
-            collector.Subscribe(OnReceiveFromNative, (messageHolder) => true);
+            collector.Subscribe(OnReceiveFromNative, (message) => true);
         }
     }
 

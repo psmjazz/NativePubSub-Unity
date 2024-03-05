@@ -9,7 +9,7 @@ namespace PJ.Native.Bridge
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         public static void Initialize()
         {
-            NativePubSub.Instance.Start();
+            NativeRelay.Instance.Start();
         }
     }
 }

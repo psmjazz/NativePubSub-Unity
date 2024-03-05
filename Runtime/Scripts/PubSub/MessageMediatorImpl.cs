@@ -21,13 +21,12 @@ namespace PJ.Native.PubSub
             idFilter[node.ID] = node;
         }
 
-        public void Publish(Message message, Tag tag, Publisher notifier)
+        public void Publish(Message message, Tag tag, Publisher publisher)
         {
-            MessageHolder holder = new MessagePostman(message, linkReceiver(notifier));
-            foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag)))
+            MessageHolder holder = new MessagePostman(message, linkReceiver(publisher));
+            foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag) && publisher.ID != node.ID))
             {
-                if(node.HasKey(message.Key) && notifier.ID != node.ID)
-                    node.OnReceive(holder);
+                node.OnReceive(holder);
             }
         }
 

@@ -18,10 +18,10 @@ namespace PJ.Native.PubSub
             this.Message = message;
             this.messageHost = null;
         }
-        internal MessagePostman(Message message, Receivable notifier)
+        internal MessagePostman(Message message, Receivable receivable)
         {
             this.Message = message;
-            this.messageHost = notifier;
+            this.messageHost = receivable;
         }
 
         public void GiveBack(Message message)
