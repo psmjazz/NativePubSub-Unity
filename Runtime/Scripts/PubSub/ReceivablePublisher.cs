@@ -19,7 +19,7 @@ namespace PJ.Native.PubSub
             private static int id = 0;
             public static int GetID()
             {
-                return id++;
+                return id+=2;
             }
         }
         private Tag tag;
@@ -33,7 +33,7 @@ namespace PJ.Native.PubSub
 
         public void Publish(Message message, Tag tag)
         {
-            MessageManager.Instance.Mediator.Publish(message, tag, this);
+            MessageManager.Instance.Mediator.Publish(message, tag);
         }
     }
     

@@ -8,6 +8,6 @@ namespace PJ.Native.PubSub
     public interface MessageHolder
     {
         Message Message {get;}
-        void GiveBack(Message message);
+        void Reply(Message message);
     }    
 }
