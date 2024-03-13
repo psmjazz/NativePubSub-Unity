@@ -9,14 +9,14 @@ namespace PJ.Native.PubSub
 {
     public sealed class Messenger : ReceivablePublisher
     {
-        private Dictionary<string, Action<MessageHolder>> handlerMap;
-        private List<(Action<MessageHolder>, Predicate<Message>)> conditionHandlers;
+        private Dictionary<string, Action<Channel>> handlerMap;
+        private List<(Action<Channel>, Predicate<Message>)> conditionHandlers;
 
         public Messenger(Tag tag) : base(tag)
         {
             MessageManager.Instance.Mediator.Register(this);
-            handlerMap = new Dictionary<string, Action<MessageHolder>>();
-            conditionHandlers = new List<(Action<MessageHolder>, Predicate<Message>)>();
+            handlerMap = new Dictionary<string, Action<Channel>>();
+            conditionHandlers = new List<(Action<Channel>, Predicate<Message>)>();
         }
 
         public override bool HasKey(string key)
@@ -24,22 +24,23 @@ namespace PJ.Native.PubSub
             return handlerMap.ContainsKey(key);
         }
 
-        public override void OnReceive(MessageHolder messageHolder)
+        public override void OnReceive(Envelope envelope)
         {
-            if(handlerMap.TryGetValue(messageHolder.Message.Key, out Action<MessageHolder> handler))
+            Channel channel = new ChannelConnection(envelope, this.ID);
+            if(handlerMap.TryGetValue(envelope.Message.Key, out Action<Channel> handler))
             {
-                handler.Invoke(messageHolder);
+                handler.Invoke(channel);
             }
-            foreach((Action<MessageHolder> callback, Predicate<Message> condition) in conditionHandlers)
+            foreach((Action<Channel> callback, Predicate<Message> condition) in conditionHandlers)
             {
-                if(condition.Invoke(messageHolder.Message))
+                if(condition.Invoke(envelope.Message))
                 {
-                    callback.Invoke(messageHolder);
+                    callback.Invoke(channel);
                 }
             }
         }
 
-        public void Subscribe(string key, Action<MessageHolder> handler)
+        public void Subscribe(string key, Action<Channel> handler)
         {
             handlerMap[key] = handler;
 
@@ -50,12 +51,12 @@ namespace PJ.Native.PubSub
             handlerMap.Remove(key);
         }
 
-        public void Subscribe(Action<MessageHolder> handler, Predicate<Message> condition)
+        public void Subscribe(Action<Channel> handler, Predicate<Message> condition)
         {
             conditionHandlers.Add((handler, condition));
         }
 
-        public void Unsubscribe(Action<MessageHolder> handler)
+        public void Unsubscribe(Action<Channel> handler)
         {
             conditionHandlers.RemoveAll(conditionHandler => conditionHandler.Item1 == handler);
         }

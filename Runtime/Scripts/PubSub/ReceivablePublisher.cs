@@ -9,7 +9,7 @@ namespace PJ.Native.PubSub
     public interface Receivable
     {
         bool HasKey(string key);
-        void OnReceive(MessageHolder messageHolder);
+        void OnReceive(Envelope envelope);
     }
 
     public class Publisher
@@ -33,7 +33,12 @@ namespace PJ.Native.PubSub
 
         public void Publish(Message message, Tag tag)
         {
-            MessageManager.Instance.Mediator.Publish(message, tag);
+            Envelope envelope = new Envelope(message, this.ID);
+            MessageManager.Instance.Mediator.Publish(envelope, tag);
+        }
+        internal void Publish(Envelope envelope, Tag tag)
+        {
+            MessageManager.Instance.Mediator.Publish(envelope, tag);
         }
     }
     
@@ -45,6 +50,6 @@ namespace PJ.Native.PubSub
 
         public abstract bool HasKey(string key);
 
-        public abstract void OnReceive(MessageHolder messageHolder);   
+        public abstract void OnReceive(Envelope envelope);   
     }
 }

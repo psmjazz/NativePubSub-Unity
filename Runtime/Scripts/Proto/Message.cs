@@ -6,14 +6,28 @@ namespace PJ.Native.Proto
         public Message(string key)
         {
             Key = key;
-            Envelope = new Envelope();
         }
 
         public Message(string key, Container container)
         {
             Key = key;
             Container = container;
-            Envelope = new Envelope();
+        }
+    }
+
+    public partial class Envelope
+    {
+        public Envelope(Message message, int senderID)
+        {
+            Message = message;
+            SenderID = senderID;
+        }
+
+        public Envelope(Message message, int senderID, int receiverID)
+        {
+            Message = message;
+            SenderID = senderID;
+            ReceiverID = receiverID;
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PJ.Native.PubSub
 {
-    public interface MessageHolder
+    public interface Channel
     {
         Message Message {get;}
         void Reply(Message message);

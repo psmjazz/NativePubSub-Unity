@@ -21,53 +21,33 @@ namespace PJ.Native.PubSub
             idFilter[node.ID] = node;
         }
 
-        public void Publish(Message message, Tag tag)
+        public void Publish(Envelope envelope, Tag tag)
         {
-            if(message.Envelope.HasReceiverID)
+            if(envelope.HasReceiverID)
             {
-                int receiverID = message.Envelope.ReceiverID;
+                int receiverID = envelope.ReceiverID;
                 if(idFilter.ContainsKey(receiverID))
                 {
-                    Receivable giveBacked = idFilter[receiverID];
-                    MessageHolder holder = new MessagePostman(message);
-                    giveBacked.OnReceive(holder);
+                    Receivable replied = idFilter[receiverID];
+                    replied.OnReceive(envelope);
                     
+                }
+                else
+                {
+                    Broadcast(envelope, tag);
                 }
             }
             else
             {
-                MessageHolder holder = new MessagePostman(message);
-                foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag) && message.Envelope.SenderID != node.ID))
-                {
-                    node.OnReceive(holder);
-                }
+                Broadcast(envelope, tag);
             }
         }
 
-        private Receivable linkReceiver(Publisher publisher)
+        private void Broadcast(Envelope envelope, Tag tag)
         {
-            return idFilter[publisher.ID];
-        } 
-
-        public void Reply(Message message)
-        {
-            if(!message.Envelope.HasReceiverID)
-                return;
-            int receiverID = message.Envelope.ReceiverID;
-            if(idFilter.ContainsKey(receiverID))
+            foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag) && envelope.SenderID != node.ID))
             {
-                Receivable giveBacked = idFilter[receiverID];
-                MessageHolder holder = new MessagePostman(message);
-                giveBacked.OnReceive(holder);
-                
-            }
-            else
-            {
-                MessageHolder holder = new MessagePostman(message);
-                foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(Tag.Game) && message.Envelope.SenderID != node.ID))
-                {
-                    node.OnReceive(holder);
-                }
+                node.OnReceive(envelope);
             }
         }
     }

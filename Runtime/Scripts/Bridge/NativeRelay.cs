@@ -11,40 +11,39 @@ namespace PJ.Native.Bridge
     public class NativeRelay : Singleton<NativeRelay>
     {
         private INativeBridge bridge;
-        private Messenger collector;
+        private Messenger messenger;
 
         private void OnReceiveFromNative(byte[] rawData)
         {
-            collector.Publish(ToMessage(rawData), Tag.Game);
+            messenger.Publish(ToEnvelope(rawData), Tag.Game);
         }
 
-        private byte[] ToRawData(Message message)
+        private byte[] ToRawData(Envelope envelope)
         {
-            return message.ToByteArray();
+            return envelope.ToByteArray();
         }
 
-        private Message ToMessage(byte[] rawData)
+        private Envelope ToEnvelope(byte[] rawData)
         {
-            var parsed = Message.Parser.ParseFrom(rawData);
+            var parsed = Envelope.Parser.ParseFrom(rawData);
             return parsed;
         }
 
-        private void OnReceiveFromNative(MessageHolder messageHolder)
+        private void OnReceiveFromNative(Channel channel)
         {
-            this.SendToNative(messageHolder.Message);
-        }
-
-        private void SendToNative(Message message)
-        {
-            bridge.Send(ToRawData(message));
+            if(channel is ChannelConnection)
+            {
+                ChannelConnection connection = channel as ChannelConnection;
+                bridge.Send(ToRawData(connection.Envelope));
+            }    
         }
 
         internal void Start()
         {
             bridge = new NativeBridge();
             bridge.SetNativeDataListener(OnReceiveFromNative);
-            collector = new Messenger(Tag.Native);
-            collector.Subscribe(OnReceiveFromNative, (message) => true);
+            messenger = new Messenger(Tag.Native);
+            messenger.Subscribe(OnReceiveFromNative, (message) => true);
         }
     }
 
