@@ -4,36 +4,44 @@ using System.Collections.Generic;
 using System.Linq;
 using PJ.Native.Proto;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace PJ.Native.PubSub
 {
     public sealed class Messenger : ReceivablePublisher
     {
+        private Tag allTag = Tag.None;
         private Dictionary<string, Action<Channel>> handlerMap;
         private List<(Action<Channel>, Predicate<Message>)> conditionHandlers;
 
-        public Messenger(Tag tag) : base(tag)
+        public Messenger()
         {
             MessageManager.Instance.Mediator.Register(this);
             handlerMap = new Dictionary<string, Action<Channel>>();
             conditionHandlers = new List<(Action<Channel>, Predicate<Message>)>();
         }
 
-        public override bool HasKey(string key)
+        public override void SetTagRule(Tag all)
         {
-            return handlerMap.ContainsKey(key);
+            allTag = all;
         }
 
-        public override void OnReceive(Envelope envelope)
+        public override bool MatchTag(Tag tag)
         {
-            Channel channel = new ChannelConnection(envelope, this.ID);
-            if(handlerMap.TryGetValue(envelope.Message.Key, out Action<Channel> handler))
+            // if(this.allTag.Equals(Tag.None))
+            //     return true;
+            return tag.Contains(allTag);
+        }
+
+        public override void OnReceive(Channel channel)
+        {
+            if(handlerMap.TryGetValue(channel.Message.Key, out Action<Channel> handler))
             {
                 handler.Invoke(channel);
             }
             foreach((Action<Channel> callback, Predicate<Message> condition) in conditionHandlers)
             {
-                if(condition.Invoke(envelope.Message))
+                if(condition.Invoke(channel.Message))
                 {
                     callback.Invoke(channel);
                 }
@@ -60,5 +68,6 @@ namespace PJ.Native.PubSub
         {
             conditionHandlers.RemoveAll(conditionHandler => conditionHandler.Item1 == handler);
         }
+
     }
 }

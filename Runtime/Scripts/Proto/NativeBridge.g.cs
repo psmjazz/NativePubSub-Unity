@@ -38,16 +38,17 @@ namespace PJ.Native.Proto {
             "dHJpbmdzRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ARos",
             "CgpCeXRlc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoDDoCOAEa",
             "PQoPQ29udGFpbmVyc0VudHJ5EgsKA2tleRgBIAEoCRIZCgV2YWx1ZRgCIAEo",
-            "CzIKLkNvbnRhaW5lcjoCOAEiXwoIRW52ZWxvcGUSGQoHbWVzc2FnZRgBIAEo",
+            "CzIKLkNvbnRhaW5lcjoCOAEicQoIRW52ZWxvcGUSGQoHbWVzc2FnZRgBIAEo",
             "CzIILk1lc3NhZ2USEAoIc2VuZGVySUQYAiABKAUSFwoKcmVjZWl2ZXJJRBgD",
-            "IAEoBUgAiAEBQg0KC19yZWNlaXZlcklEQicKE2NvbS5wai5wdWJzdWIucHJv",
-            "dG+qAg9QSi5OYXRpdmUuUHJvdG9iBnByb3RvMw=="));
+            "IAEoBUgAiAEBEhAKCHRhZ05hbWVzGAQgAygJQg0KC19yZWNlaXZlcklEQicK",
+            "E2NvbS5wai5wdWJzdWIucHJvdG+qAg9QSi5OYXRpdmUuUHJvdG9iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::PJ.Native.Proto.Message), global::PJ.Native.Proto.Message.Parser, new[]{ "Key", "Container" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::PJ.Native.Proto.Container), global::PJ.Native.Proto.Container.Parser, new[]{ "Booleans", "Integers", "Floats", "Strings", "Bytes", "Containers" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, null, null, null, null, null, }),
-            new pbr::GeneratedClrTypeInfo(typeof(global::PJ.Native.Proto.Envelope), global::PJ.Native.Proto.Envelope.Parser, new[]{ "Message", "SenderID", "ReceiverID" }, new[]{ "ReceiverID" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::PJ.Native.Proto.Envelope), global::PJ.Native.Proto.Envelope.Parser, new[]{ "Message", "SenderID", "ReceiverID", "TagNames" }, new[]{ "ReceiverID" }, null, null, null)
           }));
     }
     #endregion
@@ -639,6 +640,7 @@ namespace PJ.Native.Proto {
       message_ = other.message_ != null ? other.message_.Clone() : null;
       senderID_ = other.senderID_;
       receiverID_ = other.receiverID_;
+      tagNames_ = other.tagNames_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -699,6 +701,17 @@ namespace PJ.Native.Proto {
       _hasBits0 &= ~1;
     }
 
+    /// <summary>Field number for the "tagNames" field.</summary>
+    public const int TagNamesFieldNumber = 4;
+    private static readonly pb::FieldCodec<string> _repeated_tagNames_codec
+        = pb::FieldCodec.ForString(34);
+    private readonly pbc::RepeatedField<string> tagNames_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<string> TagNames {
+      get { return tagNames_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -717,6 +730,7 @@ namespace PJ.Native.Proto {
       if (!object.Equals(Message, other.Message)) return false;
       if (SenderID != other.SenderID) return false;
       if (ReceiverID != other.ReceiverID) return false;
+      if(!tagNames_.Equals(other.tagNames_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -727,6 +741,7 @@ namespace PJ.Native.Proto {
       if (message_ != null) hash ^= Message.GetHashCode();
       if (SenderID != 0) hash ^= SenderID.GetHashCode();
       if (HasReceiverID) hash ^= ReceiverID.GetHashCode();
+      hash ^= tagNames_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -757,6 +772,7 @@ namespace PJ.Native.Proto {
         output.WriteRawTag(24);
         output.WriteInt32(ReceiverID);
       }
+      tagNames_.WriteTo(output, _repeated_tagNames_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -779,6 +795,7 @@ namespace PJ.Native.Proto {
         output.WriteRawTag(24);
         output.WriteInt32(ReceiverID);
       }
+      tagNames_.WriteTo(ref output, _repeated_tagNames_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -798,6 +815,7 @@ namespace PJ.Native.Proto {
       if (HasReceiverID) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ReceiverID);
       }
+      size += tagNames_.CalculateSize(_repeated_tagNames_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -822,6 +840,7 @@ namespace PJ.Native.Proto {
       if (other.HasReceiverID) {
         ReceiverID = other.ReceiverID;
       }
+      tagNames_.Add(other.tagNames_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -852,6 +871,10 @@ namespace PJ.Native.Proto {
             ReceiverID = input.ReadInt32();
             break;
           }
+          case 34: {
+            tagNames_.AddEntriesFrom(input, _repeated_tagNames_codec);
+            break;
+          }
         }
       }
     #endif
@@ -880,6 +903,10 @@ namespace PJ.Native.Proto {
           }
           case 24: {
             ReceiverID = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            tagNames_.AddEntriesFrom(ref input, _repeated_tagNames_codec);
             break;
           }
         }

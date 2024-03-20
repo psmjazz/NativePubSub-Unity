@@ -5,6 +5,7 @@ using PJ.Core.Util;
 using PJ.Native.PubSub;
 using PJ.Native.Proto;
 using UnityEngine;
+using System.Linq;
 
 namespace PJ.Native.Bridge
 {
@@ -15,7 +16,10 @@ namespace PJ.Native.Bridge
 
         private void OnReceiveFromNative(byte[] rawData)
         {
-            messenger.Publish(ToEnvelope(rawData), Tag.Game);
+            Envelope envelope = ToEnvelope(rawData);
+            Tag tag = Tag.Named(envelope.TagNames);
+            Tag unjoinedTag = tag.Unjoin(Tag.Relay);
+            messenger.Publish(envelope, unjoinedTag);
         }
 
         private byte[] ToRawData(Envelope envelope)
@@ -29,11 +33,12 @@ namespace PJ.Native.Bridge
             return parsed;
         }
 
-        private void OnReceiveFromNative(Channel channel)
+        private void OnReceiveFromGame(Channel channel)
         {
             if(channel is ChannelConnection)
             {
                 ChannelConnection connection = channel as ChannelConnection;
+                connection.SerializeTag();
                 bridge.Send(ToRawData(connection.Envelope));
             }    
         }
@@ -42,8 +47,10 @@ namespace PJ.Native.Bridge
         {
             bridge = new NativeBridge();
             bridge.SetNativeDataListener(OnReceiveFromNative);
-            messenger = new Messenger(Tag.Native);
-            messenger.Subscribe(OnReceiveFromNative, (message) => true);
+            messenger = new Messenger();
+            Debug.Log("nativeRelay handler id : " + messenger.ID);
+            messenger.SetTagRule(Tag.Relay);
+            messenger.Subscribe(OnReceiveFromGame, (message) => true);
         }
     }
 

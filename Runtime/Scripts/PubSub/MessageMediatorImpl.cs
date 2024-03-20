@@ -28,8 +28,9 @@ namespace PJ.Native.PubSub
                 int receiverID = envelope.ReceiverID;
                 if(idFilter.ContainsKey(receiverID))
                 {
+                    Channel channel = new ChannelConnection(envelope, receiverID, tag);
                     Receivable replied = idFilter[receiverID];
-                    replied.OnReceive(envelope);
+                    replied.OnReceive(channel);
                     
                 }
                 else
@@ -45,9 +46,10 @@ namespace PJ.Native.PubSub
 
         private void Broadcast(Envelope envelope, Tag tag)
         {
-            foreach(var node in idFilter.Values.Where(node => node.Tag.Contains(tag) && envelope.SenderID != node.ID))
+            foreach(var node in idFilter.Values.Where(node => node.MatchTag(tag) && envelope.SenderID != node.ID))
             {
-                node.OnReceive(envelope);
+                Channel channel = new ChannelConnection(envelope, node.ID, tag);
+                node.OnReceive(channel);
             }
         }
     }

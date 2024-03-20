@@ -8,8 +8,9 @@ namespace PJ.Native.PubSub
 {
     public interface Receivable
     {
-        bool HasKey(string key);
-        void OnReceive(Envelope envelope);
+        void SetTagRule(Tag all);
+        bool MatchTag(Tag tag);
+        void OnReceive(Channel channel);
     }
 
     public class Publisher
@@ -22,18 +23,19 @@ namespace PJ.Native.PubSub
                 return id+=2;
             }
         }
-        private Tag tag;
-        public Tag Tag => tag;
+
         public int ID = IDCounter.GetID();
 
-        public Publisher(Tag tag)
+        public void Publish(Message message)
         {
-            this.tag = tag;
+            Envelope envelope = new Envelope(message, this.ID);
+            MessageManager.Instance.Mediator.Publish(envelope, Tag.Relay);
         }
 
         public void Publish(Message message, Tag tag)
         {
             Envelope envelope = new Envelope(message, this.ID);
+            tag = tag.Join(Tag.Relay);
             MessageManager.Instance.Mediator.Publish(envelope, tag);
         }
         internal void Publish(Envelope envelope, Tag tag)
@@ -44,12 +46,12 @@ namespace PJ.Native.PubSub
     
     public abstract class ReceivablePublisher : Publisher, Receivable
     {
-        internal ReceivablePublisher(Tag tag) : base(tag)
+        internal ReceivablePublisher()
         {
         }
 
-        public abstract bool HasKey(string key);
-
-        public abstract void OnReceive(Envelope envelope);   
+        public abstract void SetTagRule(Tag all);
+        public abstract bool MatchTag(Tag tag);
+        public abstract void OnReceive(Channel envelope);
     }
 }

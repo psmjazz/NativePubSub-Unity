@@ -1,4 +1,6 @@
 
+using PJ.Native.PubSub;
+
 namespace PJ.Native.Proto
 {
     public partial class Message
