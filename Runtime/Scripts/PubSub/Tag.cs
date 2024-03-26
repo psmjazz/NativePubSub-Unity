@@ -200,7 +200,8 @@ namespace PJ.Native.PubSub
     public partial struct Tag
     {
         public static Tag None = Tag.NamedWithID("None", 0b0);
-        public static Tag Relay = Tag.Named("Relay");
+        public static Tag Native = Tag.Named("Native");
+        public static Tag Game = Tag.Named("Game");
         
     }
 }

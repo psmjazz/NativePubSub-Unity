@@ -18,8 +18,7 @@ namespace PJ.Native.Bridge
         {
             Envelope envelope = ToEnvelope(rawData);
             Tag tag = Tag.Named(envelope.TagNames);
-            Tag unjoinedTag = tag.Unjoin(Tag.Relay);
-            messenger.Publish(envelope, unjoinedTag);
+            messenger.Publish(envelope, tag);
         }
 
         private byte[] ToRawData(Envelope envelope)
@@ -49,7 +48,7 @@ namespace PJ.Native.Bridge
             bridge.SetNativeDataListener(OnReceiveFromNative);
             messenger = new Messenger();
             Debug.Log("nativeRelay handler id : " + messenger.ID);
-            messenger.SetTagRule(Tag.Relay);
+            messenger.SetTagRule(Tag.Native);
             messenger.Subscribe(OnReceiveFromGame, (message) => true);
         }
     }

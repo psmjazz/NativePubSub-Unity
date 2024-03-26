@@ -35,7 +35,7 @@ namespace PJ.Native.PubSub
             envelope.SenderID = receiverID;
             envelope.ReceiverID = envelope.SenderID;
             envelope.Message = message;
-            MessageManager.Instance.Mediator.Publish(envelope, Tag.Relay);
+            MessageManager.Instance.Mediator.Publish(envelope, Tag.None);
         }
     }
 }

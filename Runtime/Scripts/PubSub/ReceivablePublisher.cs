@@ -24,23 +24,30 @@ namespace PJ.Native.PubSub
             }
         }
 
-        public int ID = IDCounter.GetID();
+        private Tag baseTag = Tag.None;
+        public readonly int ID = IDCounter.GetID();
+
+        public void SetBaseTag(Tag tag)
+        {
+            baseTag = tag;
+        }
 
         public void Publish(Message message)
         {
             Envelope envelope = new Envelope(message, this.ID);
-            MessageManager.Instance.Mediator.Publish(envelope, Tag.Relay);
+            MessageManager.Instance.Mediator.Publish(envelope, baseTag);
         }
 
         public void Publish(Message message, Tag tag)
         {
             Envelope envelope = new Envelope(message, this.ID);
-            tag = tag.Join(Tag.Relay);
-            MessageManager.Instance.Mediator.Publish(envelope, tag);
+            Tag joined = Tag.Join(tag, baseTag);
+            MessageManager.Instance.Mediator.Publish(envelope, joined);
         }
         internal void Publish(Envelope envelope, Tag tag)
         {
-            MessageManager.Instance.Mediator.Publish(envelope, tag);
+            Tag joined = Tag.Join(tag, baseTag);
+            MessageManager.Instance.Mediator.Publish(envelope, joined);
         }
     }
     
