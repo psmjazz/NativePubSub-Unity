@@ -5,6 +5,7 @@
 ### Added
 
 - Envelop struct added. Envelop has a Message
+- EnvelopeHolder struct added. Holds Envelope struct internally.
 - Add MatchTag to Receivable
 - Add SetTagRules to Receivable
 - Add SetBaseTag to ReceivablePublisher
@@ -14,16 +15,14 @@
 - Renmae unity package NativeBridge to NativePubSub
 - Rename namespace PJ.Native.Messenger to PJ.Native.PubSub
 - Rename Folder Runtime/Scripts/Messenger to Runtime/Scripts/PubSub
-- Rename MessageHandler's method
-- Rename MessageHandler to Messenger.
-- Rename MessageHolder to Channel
-- Rename MessageHolder.GiveBack to Channel.Reply
+- Tags are now synced between unity and native.
 
 ### Deprecated
 
 ### Removed
 
 - Delete MessageCollector.
+- Delete MessageHandler.
 
 ### Fixed
 

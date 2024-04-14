@@ -10,7 +10,7 @@ namespace PJ.Native.PubSub
     {
         void SetTagRule(Tag all);
         bool MatchTag(Tag tag);
-        void OnReceive(Channel channel);
+        void OnReceive(EnvelopeHolder envelopeHolder);
     }
 
     public class Publisher
@@ -59,6 +59,6 @@ namespace PJ.Native.PubSub
 
         public abstract void SetTagRule(Tag all);
         public abstract bool MatchTag(Tag tag);
-        public abstract void OnReceive(Channel envelope);
+        public abstract void OnReceive(EnvelopeHolder envelopeHolder);
     }
 }

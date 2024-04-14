@@ -12,13 +12,13 @@ namespace PJ.Native.Bridge
     public class NativeRelay : Singleton<NativeRelay>
     {
         private INativeBridge bridge;
-        private Messenger messenger;
+        private Bridge bridgeMessenger;
 
         private void OnReceiveFromNative(byte[] rawData)
         {
             Envelope envelope = ToEnvelope(rawData);
             Tag tag = Tag.Named(envelope.TagNames);
-            messenger.Publish(envelope, tag);
+            bridgeMessenger.Publish(envelope, tag);
         }
 
         private byte[] ToRawData(Envelope envelope)
@@ -32,24 +32,20 @@ namespace PJ.Native.Bridge
             return parsed;
         }
 
-        private void OnReceiveFromGame(Channel channel)
+        private void OnReceiveFromGame(EnvelopeHolder envelopeHolder)
         {
-            if(channel is ChannelConnection)
-            {
-                ChannelConnection connection = channel as ChannelConnection;
-                connection.SerializeTag();
-                bridge.Send(ToRawData(connection.Envelope));
-            }    
+            envelopeHolder.SerializeTag();
+            bridge.Send(ToRawData(envelopeHolder.Envelope)); 
         }
 
         internal void Start()
         {
             bridge = new NativeBridge();
             bridge.SetNativeDataListener(OnReceiveFromNative);
-            messenger = new Messenger();
-            Debug.Log("nativeRelay handler id : " + messenger.ID);
-            messenger.SetTagRule(Tag.Native);
-            messenger.Subscribe(OnReceiveFromGame, (message) => true);
+            bridgeMessenger = new Bridge();
+            Debug.Log("nativeRelay handler id : " + bridgeMessenger.ID);
+            bridgeMessenger.SetTagRule(Tag.Native);
+            bridgeMessenger.Subscribe(OnReceiveFromGame);
         }
     }
 
