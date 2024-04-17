@@ -8,7 +8,7 @@ namespace PJ.Native.PubSub
 {
     public interface Receivable
     {
-        void SetTagRule(Tag all);
+        void SetReceivingRule(Tag all);
         bool MatchTag(Tag tag);
         void OnReceive(EnvelopeHolder envelopeHolder);
     }
@@ -27,7 +27,7 @@ namespace PJ.Native.PubSub
         private Tag baseTag = Tag.None;
         public readonly int ID = IDCounter.GetID();
 
-        public void SetBaseTag(Tag tag)
+        public void SetBasePublishingTag(Tag tag)
         {
             baseTag = tag;
         }
@@ -57,7 +57,7 @@ namespace PJ.Native.PubSub
         {
         }
 
-        public abstract void SetTagRule(Tag all);
+        public abstract void SetReceivingRule(Tag all);
         public abstract bool MatchTag(Tag tag);
         public abstract void OnReceive(EnvelopeHolder envelopeHolder);
     }

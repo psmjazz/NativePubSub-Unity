@@ -21,7 +21,7 @@ namespace PJ.Native.PubSub
             conditionHandlers = new List<(Action<Message>, Predicate<Message>)>();
         }
 
-        public override void SetTagRule(Tag all)
+        public override void SetReceivingRule(Tag all)
         {
             allTag = all;
         }

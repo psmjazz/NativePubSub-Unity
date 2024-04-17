@@ -44,7 +44,7 @@ namespace PJ.Native.Bridge
             bridge.SetNativeDataListener(OnReceiveFromNative);
             bridgeMessenger = new Bridge();
             Debug.Log("nativeRelay handler id : " + bridgeMessenger.ID);
-            bridgeMessenger.SetTagRule(Tag.Native);
+            bridgeMessenger.SetReceivingRule(Tag.Native);
             bridgeMessenger.Subscribe(OnReceiveFromGame);
         }
     }

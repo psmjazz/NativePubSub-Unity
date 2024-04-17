@@ -24,7 +24,7 @@ namespace PJ.Native.Bridge
             this.handler?.Invoke(envelope);
         }
 
-        public override void SetTagRule(Tag all)
+        public override void SetReceivingRule(Tag all)
         {
             this.allTag = all;
         }

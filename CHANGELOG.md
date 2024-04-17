@@ -7,8 +7,8 @@
 - Envelop struct added. Envelop has a Message
 - EnvelopeHolder struct added. Holds Envelope struct internally.
 - Add MatchTag to Receivable
-- Add SetTagRules to Receivable
-- Add SetBaseTag to ReceivablePublisher
+- Add SetReceivingRule to Receivable
+- Add SetBasePublishingTag to ReceivablePublisher
 
 ### Changed
 
