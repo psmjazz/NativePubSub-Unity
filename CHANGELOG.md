@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.0] - 2024-04-24
 
 ### Added
 
@@ -12,12 +12,10 @@
 
 ### Changed
 
-- Renmae unity package NativeBridge to NativePubSub
+- Rename unity package NativeBridge to NativePubSub
 - Rename namespace PJ.Native.Messenger to PJ.Native.PubSub
 - Rename Folder Runtime/Scripts/Messenger to Runtime/Scripts/PubSub
 - Tags are now synced between unity and native.
-
-### Deprecated
 
 ### Removed
 

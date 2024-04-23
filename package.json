@@ -1,6 +1,6 @@
 {
     "name": "com.psmjzz.nativepubsub",
-    "version": "0.0.2",
+    "version": "0.1.0",
     "displayName": "NativePubSub",
     "description": "Helps comunication with native code",
     "unity": "2021.3",

@@ -1,24 +1,20 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using PJ.Native.Proto;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace PJ.Native.PubSub
 {
     public sealed class Messenger : ReceivablePublisher
     {
         private Tag allTag = Tag.None;
-        private Dictionary<string, Action<Message>> handlerMap;
-        private List<(Action<Message>, Predicate<Message>)> conditionHandlers;
+        private readonly Dictionary<string, Action<Message>> handlerMap;
+        private readonly List<Action<Message>> handlerList;
 
         public Messenger()
         {
             MessageManager.Instance.Mediator.Register(this);
             handlerMap = new Dictionary<string, Action<Message>>();
-            conditionHandlers = new List<(Action<Message>, Predicate<Message>)>();
+            handlerList = new List<Action<Message>>();
         }
 
         public override void SetReceivingRule(Tag all)
@@ -40,12 +36,9 @@ namespace PJ.Native.PubSub
             {
                 handler.Invoke(envelope.Message);
             }
-            foreach((Action<Message> callback, Predicate<Message> condition) in conditionHandlers)
+            foreach(Action<Message> callback in handlerList)
             {
-                if(condition.Invoke(envelope.Message))
-                {
-                    callback.Invoke(envelope.Message);
-                }
+                callback.Invoke(envelope.Message);
             }
         }
 
@@ -60,14 +53,14 @@ namespace PJ.Native.PubSub
             handlerMap.Remove(key);
         }
 
-        public void Subscribe(Action<Message> handler, Predicate<Message> condition)
+        public void Subscribe(Action<Message> handler)
         {
-            conditionHandlers.Add((handler, condition));
+            handlerList.Add(handler);
         }
 
         public void Unsubscribe(Action<Message> handler)
         {
-            conditionHandlers.RemoveAll(conditionHandler => conditionHandler.Item1 == handler);
+            handlerList.RemoveAll(member => member == handler);
         }
 
     }

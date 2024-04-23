@@ -13,14 +13,22 @@ namespace PJ.Native.PubSub
         void OnReceive(EnvelopeHolder envelopeHolder);
     }
 
+    public enum PublisherType
+    {
+        Android     = 10000,
+        IOS         = 20000,
+        Unity       = 30000,
+        Unreal      = 40000
+    }
+
     public class Publisher
     {
         private static class IDCounter
         {
-            private static int id = 0;
+            private static int id = (int) PublisherType.Unity;
             public static int GetID()
             {
-                return id+=2;
+                return ++id;
             }
         }
 
