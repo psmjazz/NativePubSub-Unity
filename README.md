@@ -39,8 +39,6 @@ Notify and subscribe messages.
 ### Usage
 Code opens native alert. Need Android/iOS implementation comunicate with this code.
 ```cs
-using PJ.Native.Messenger
-
 public class NativeComunicator
 {
     private MessageHandler messageHandler;
@@ -56,7 +54,7 @@ public class NativeComunicator
 
     private void OnReceive(MessageHolder messageHolder)
     {
-        if(messageHoler.Message.Container.TryGetValue("pressOk", out bool pressOk))
+        if(messageHolder.Message.Container.TryGetValue("pressOk", out bool pressOk))
         {
             Debug.Log("user press? " + pressOk);
         }
@@ -69,7 +67,7 @@ public class NativeComunicator
         container.Add("alertMessage", alertMessage);
         Message message = new Message("OPEN_ALERT", container);
         // NotifyMessage 
-        messageHandler.Notify(container, Tag.Native);
+        messageHandler.Notify(message, Tag.Native);
     }
 }
 ```
@@ -102,12 +100,25 @@ pod init
 ```
 2. Open pod file and add iOSBridgeCore dependency
 ```ruby
-target 'iOSTutorial' do
-  platform :ios, '12.0'
+target 'Unity-iPhone' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  # Pods for iOSTutorial
+
+  # Pods for Unity-iPhone
+
+  target 'Unity-iPhone Tests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'UnityFramework' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
   pod 'iOSBridgeCore', :git => 'https://github.com/psmjazz/NativeBridge-iOS.git', :tag => '0.0.1' 
+  # Pods for UnityFramework
+
 end
 
 post_install do |installer|
@@ -118,6 +129,7 @@ post_install do |installer|
     end
   end
 end
+
 ```
 3. Run pod install
 4. Open xcworkspace and build iOS
