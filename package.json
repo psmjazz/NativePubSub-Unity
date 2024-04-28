@@ -1,7 +1,7 @@
 {
-    "name": "com.psmjzz.nativebridge",
-    "version": "0.0.1",
-    "displayName": "NativeBridge",
+    "name": "com.psmjzz.nativepubsub",
+    "version": "0.1.0",
+    "displayName": "NativePubSub",
     "description": "Helps comunication with native code",
     "unity": "2021.3",
     "license": "MIT",
@@ -11,8 +11,8 @@
     },
     "keywords": [
         "native",
-        "bridge",
-        "nativebridge"
+        "pubsub",
+        "nativepubsub"
     ]
 
 }

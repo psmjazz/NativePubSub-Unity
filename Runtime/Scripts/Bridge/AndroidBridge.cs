@@ -11,7 +11,7 @@ namespace PJ.Native.Bridge
     {
         public NativeDataCallback DataCallback;
 
-        public AndroidBridgeProxy() : base("com.pj.core.unity.NativeBridgeCallback")
+        public AndroidBridgeProxy() : base("com.pj.pubsub.unity.NativeBridgeCallback")
         {
             
         }
@@ -33,7 +33,7 @@ namespace PJ.Native.Bridge
 
         private Lazy<AndroidJavaObject> androidBridge = new Lazy<AndroidJavaObject>(()=>
         {
-            AndroidJavaObject obj = new AndroidJavaObject("com.pj.core.unity.NativeBridge");
+            AndroidJavaObject obj = new AndroidJavaObject("com.pj.pubsub.unity.NativeBridge");
             return obj;
         }) ;
 
