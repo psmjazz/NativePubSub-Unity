@@ -72,6 +72,3 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 .DS_Store
-/CHANGELOG.md.meta
-/LICENSE.meta
-/README.md.meta
